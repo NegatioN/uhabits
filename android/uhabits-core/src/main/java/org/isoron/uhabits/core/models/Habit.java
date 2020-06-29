@@ -352,7 +352,6 @@ public class Habit
     }
 
     public float timeoutPercentage(){
-        Timestamp now = DateUtils.getToday();
         CheckmarkList cm = getCheckmarks();
         int[] values = cm.getAllValues();
 
@@ -396,8 +395,11 @@ public class Habit
         //TODO just dont handle multicase?
         //TODO Need to change CheckmarkList.getValues(from, to) to fix this?
 
-        Timestamp trueEnd = now.plus(streakDaysRemain + 1); // a streak will always be terminated on the evening of that day?
-        Timestamp trueStart = now.minus(daysSinceStreakStart);
+        Timestamp now = new Timestamp(DateUtils.getLocalTime());
+
+        Timestamp today = DateUtils.getToday();
+        Timestamp trueEnd = today.plus(streakDaysRemain + 1); // a streak will always be terminated on the evening of that day?
+        Timestamp trueStart = today.minus(daysSinceStreakStart);
 
         long nowDiff = now.getUnixTime() - trueStart.getUnixTime();
         long endDiff = trueEnd.getUnixTime() - trueStart.getUnixTime();
